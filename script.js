@@ -2,7 +2,7 @@ const EMAIL = 'lahatm.apach@gmail.com';
 const GH_USER = 'lahat-m';
 
 /* Repos already shown as featured cards, left out of the open source list. */
-const HIDDEN_REPOS = new Set([GH_USER, 'konexio-online-bank']);
+const HIDDEN_REPOS = new Set([GH_USER, `${GH_USER}.github.io`, 'konexio-online-bank']);
 
 /* Fallback repo list, used if the GitHub API is unreachable. */
 const FALLBACK_REPOS = [
@@ -41,36 +41,6 @@ $('theme-toggle').addEventListener('click', () => {
   root.dataset.theme = dark ? 'light' : 'dark';
   try { localStorage.setItem('theme', root.dataset.theme); } catch {}
 });
-
-/* ---------- Dithered portrait ---------- */
-const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-const PALETTE = [[30, 42, 12], [72, 94, 32], [138, 166, 84], [206, 225, 160]];
-const srcImg = new Image();
-srcImg.crossOrigin = 'anonymous';
-srcImg.onload = drawAvatar;
-srcImg.src = 'https://avatars.githubusercontent.com/u/67752087?v=4&s=460';
-
-function drawAvatar() {
-  const canvas = $('avatar');
-  const W = 200, H = 125;                       // matches the 16:10 frame
-  canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  const s = Math.max(W / srcImg.naturalWidth, H / srcImg.naturalHeight);
-  const dw = srcImg.naturalWidth * s, dh = srcImg.naturalHeight * s;
-  ctx.drawImage(srcImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
-  let data;
-  try { data = ctx.getImageData(0, 0, W, H); } catch { return; } // tainted: keep CSS-tinted fallback
-  const px = data.data, n = PALETTE.length - 1;
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const i = (y * W + x) * 4;
-    const lum = (0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]) / 255;
-    const threshold = (BAYER[(y % 4) * 4 + (x % 4)] + 0.5) / 16;
-    const [r, g, b] = PALETTE[Math.min(n, Math.floor(lum * n + threshold))];
-    px[i] = r; px[i + 1] = g; px[i + 2] = b;
-  }
-  ctx.putImageData(data, 0, 0);
-  canvas.parentElement.classList.add('dithered');
-}
 
 /* ---------- Repos ---------- */
 function renderRepos(list) {
