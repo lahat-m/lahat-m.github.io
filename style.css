@@ -55,17 +55,9 @@ a { color: inherit; }
 .rule-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
 /* ---------- About ---------- */
-.about { position: relative; }
-.cover {
-  margin: -22px -22px 0; height: clamp(180px, 32vw, 320px); overflow: hidden;
-  border-radius: var(--radius) var(--radius) 0 0; background: var(--line);
-}
-.cover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 70% 55%; }
 .avatar {
   display: block; width: clamp(112px, 16vw, 152px); height: auto; aspect-ratio: 1; object-fit: cover; object-position: 40% 30%;
-  border-radius: 50%; border: 4px solid var(--card); background: var(--card);
-  margin: calc(clamp(112px, 16vw, 152px) / -2) 0 18px; position: relative;
-  box-shadow: var(--shadow);
+  border-radius: 50%; border: 1px solid var(--line); margin: 0 0 22px;
 }
 .about .intro { margin-top: 0; }
 @media (min-width: 860px) {
