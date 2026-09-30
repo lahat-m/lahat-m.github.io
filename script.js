@@ -42,6 +42,34 @@ $('theme-toggle').addEventListener('click', () => {
   try { localStorage.setItem('theme', root.dataset.theme); } catch {}
 });
 
+/* ---------- Nav: highlight the section in view ---------- */
+const navLinks = [...document.querySelectorAll('.nav-links a')];
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+function setActive(id) {
+  for (const a of navLinks) {
+    const on = a.getAttribute('href') === '#' + id;
+    a.classList.toggle('active', on);
+    if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+  }
+}
+// The active section is the last one whose top has scrolled up to just below the sticky nav.
+// At the very bottom of the page the last section wins, since it may be too short to get there.
+function updateActive() {
+  const line = document.querySelector('.nav').offsetHeight + 24;
+  const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+  let current = sections[0];
+  for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s;
+  setActive((atBottom ? sections.at(-1) : current).id);
+}
+let ticking = false;
+addEventListener('scroll', () => {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => { updateActive(); ticking = false; });
+}, { passive: true });
+addEventListener('resize', updateActive);
+updateActive();
+
 /* ---------- Repos ---------- */
 function renderRepos(list) {
   $('repos').innerHTML = list.map(r => {
