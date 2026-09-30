@@ -39,12 +39,12 @@ Building South Sudan's digital future through:
 ---
 
 ### Jualearn — AI-Powered Peer Learning Platform
-**Role:** Founder & Lead Developer | **Status:** Active Development  
+**Final-year capstone project** — BSc Computer Science, University of Nairobi  
 [GitHub](https://github.com/lahat-m/jualearn-platform)
 
 AI-powered peer learning platform for upskilling informal sector workers in Kenya with digital skills. Connecting learners with mentors and personalized learning paths.
 
-**Tech:** Python, Vue 3, FastAPI/Django, PostgreSQL
+**Tech:** Spring Boot, Spring AI, Vue.js, PostgreSQL
 
 ---
 
